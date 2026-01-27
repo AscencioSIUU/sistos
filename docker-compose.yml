@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  ubuntu-sistos:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sistos-ubuntu
+    # Mantener el contenedor corriendo
+    stdin_open: true
+    tty: true
+    # Montar el directorio actual en /sistos dentro del contenedor
+    volumes:
+      - .:/sistos
+      # Volumen para persistir el home del usuario (historial, configs, etc.)
+      - sistos-home:/home/estudiante
+    # Privilegios para strace y otras herramientas de sistema
+    privileged: true
+    # Capacidades adicionales para debugging
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+    # Reiniciar automáticamente
+    restart: unless-stopped
+
+volumes:
+  sistos-home:
+    name: sistos-home-data
