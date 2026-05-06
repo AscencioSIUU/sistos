@@ -1,0 +1,10 @@
+services:
+  sistos:
+    build: .
+    image: sistos-ubuntu
+    container_name: sistos-lab
+    volumes:
+      - .:/labs
+    stdin_open: true
+    tty: true
+    privileged: true
